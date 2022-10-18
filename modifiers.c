@@ -1,84 +1,41 @@
-#include "main.h"
-
-unsigned int print_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid);
-unsigned int print_string_width(buffer_t *output,
-		unsigned char flags, int wid, int prec, int size);
-unsigned int print_neg_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid);
-
-/**
- * print_width - Stores leading spaces to a buffer for a width modifier.
- * @output: A buffer_t struct containing a character array.
- * @printed: The current number of characters already printed to output
- *           for a given number specifier.
- * @flags: Flag modifiers.
- * @wid: A width modifier.
- *
- * Return: The number of bytes stored to the buffer.
- */
-unsigned int print_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid)
-{
-	unsigned int ret = 0;
-	char width = ' ';
-
-	if (NEG_FLAG == 0)
-	{
-		for (wid -= printed; wid > 0;)
-			ret += _memcpy(output, &width, 1);
-	}
-
-	return (ret);
-}
-
-/**
- * print_string_width - Stores leading spaces to a buffer for a width modifier.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @wid: A width modifier.
- * @prec: A precision modifier.
- * @size: The size of the string.
- *
- * Return: The number of bytes stored to the buffer.
- */
-unsigned int print_string_width(buffer_t *output,
-		unsigned char flags, int wid, int prec, int size)
-{
-	unsigned int ret = 0;
-	char width = ' ';
-
-	if (NEG_FLAG == 0)
-	{
-		wid -= (prec == -1) ? size : prec;
-		for (; wid > 0; wid--)
-			ret += _memcpy(output, &width, 1);
-	}
-
-	return (ret);
-}
-
-/**
- * print_neg_width - Stores trailing spaces to a buffer for a '-' flag.
- * @output: A buffer_t struct containing a character array.
- * @printed: The current number of bytes already stored to output
- *           for a given specifier.
- * @flags: Flag modifiers.
- * @wid: A width modifier.
- *
- * Return: The number of bytes stored to the buffer.
- */
-unsigned int print_neg_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid)
-{
-	unsigned int ret = 0;
-	char width = ' ';
-
-	if (NEG_FLAG == 1)
-	{
-		for (wid -= printed; wid > 0; wid--)
-			ret += _memcpy(output, &width, 1);
-	}
-
-	return (ret);
-}
+#include "main.h" 
+#include <unistd.h>
+/** 
+  * _putchar - writes the character c to stdout 
+  * @c: The character to print 
+  * Return: On success 1. 
+  * On error, -1 is returned, and errno is set appropriately. 
+  * Description: _putchar uses a local buffer of 1024 to call write 
+  * as little as possible 
+  */ 
+ int _putchar(char c) 
+ { 
+         static char buf[1024]; 
+         static int i; 
+  
+         if (c == -1 || i >= 1024) 
+         { 
+                 write(1, &buf, i); 
+                 i = 0; 
+         } 
+         if (c != -1) 
+         { 
+                 buf[i] = c; 
+                 i++; 
+         } 
+         return (1); 
+ } 
+  
+ /** 
+  * _puts - prints a string to stdout 
+  * @str: pointer to the string to print 
+  * Return: number of chars written 
+  */ 
+ int _puts(char *str) 
+ { 
+         register int i; 
+  
+         for (i = 0; str[i] != '\0'; i++) 
+                 _putchar(str[i]); 
+         return (i); 
+ }
